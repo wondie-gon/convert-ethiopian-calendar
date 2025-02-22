@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ethiopian-Gregorian Date Converter</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #0E0585;
+            --secondary-color: #00E399;
+            --accent-color: #1707E5;
+        }
+
+        body {
+            font-family: "Roboto", serif;
+            background: linear-gradient(to top, #00c6fb 0%, #1707E5 100%);
+            min-height: 100vh;
+            background-attachment: fixed;
+            color: #0E0585;
+        }
+
+        .container {
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+
+        .converter-section {
+            background: linear-gradient(-225deg, #fef6ff 0%, #FFE6FA 100%);
+            transition: transform 0.3s ease;
+        }
+
+        .converter-section:hover {
+            transform: translateY(-5px);
+        }
+
+        h3 {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 25px;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 10px;
+        }
+
+        .current-date-card {
+            background: linear-gradient(to top, #fad0c4 0%, #ffd1ff 100%);
+        }
+
+        .live-clock {
+            font-size: 1.4em;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .output {
+            color: var(--accent-color);
+        }
+
+        .form-control {
+            border-radius: 8px;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 8px rgba(52, 152, 219, 0.2);
+        }
+
+        .ethiopian-date-input {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            padding: 10px;
+        }
+
+        .ethiopian-date-input select {
+            border: none;
+            background: transparent;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .ethiopian-day {
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin-top: 20px;
+            }
+            
+            .converter-section {
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Current Date Display -->
+        <div class="row row-cards mb-5">            
+            <div class="col-12">
+                <div class="card current-date-card">
+                    <div class="card-body">
+                        <h4 class="text-center mb-4">Current Date</h4>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="live-clock" id="ethiopianDate"></div>
+                            <div class="live-clock" id="gregorianDate"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Converter Section -->
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+
+            <!-- Ethiopian to Gregorian -->
+            <div class="col">
+                <div class="card h-100 converter-section">
+                    <div class="card-body">
+                        <h5 class="card-title">Ethiopian to Gregorian</h5>
+                        <div class="py-3">
+                            <div class="row">
+                                <div class="input-group col-12 mb-2">
+                                    <div class="form-floating">
+                                        <input type="number" id="ethDay" name="ethDay" class="form-control" placeholder="Day" min="1" max="30" step="1">
+                                        <label for="ethDay">Day</label>
+                                    </div>
+                                    <div class="form-floating">
+                                        <select class="form-select" name="ethMonth" id="ethMonth" aria-label="select month">
+                                            <option value="1">Meskerem</option>
+                                            <option value="2">Tikimt</option>
+                                            <option value="3">Hidar</option>
+                                            <option value="4">Tahesas</option>
+                                            <option value="5">Tir</option>
+                                            <option value="6">Yekatit</option>
+                                            <option value="7">Megabit</option>
+                                            <option value="8">Miyazya</option>
+                                            <option value="9">Ginbot</option>
+                                            <option value="10">Sene</option>
+                                            <option value="11">Hamle</option>
+                                            <option value="12">Nehase</option>
+                                            <option value="13">Pagume</option>
+                                        </select>
+                                        <label for="ethMonth">Month</label>
+                                    </div>
+                                    <div class="form-floating">
+                                        <input type="number" id="ethYear" name="ethYear" class="form-control" placeholder="Year">
+                                        <label for="ethYear">Year</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="my-3">
+                            <div id="outputGregorian" class="output p-3 bg-primary bg-opacity-10 border border-primary border-opacity-10 rounded-2"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gregorian to Ethiopian -->
+            <div class="col">
+                <div class="card h-100 converter-section">
+                    <div class="card-body">
+                        <h5 class="card-title">Gregorian to Ethiopian</h5>
+                        <div class="py-3">
+                            <div class="row">
+                                <div class="col-12 mb-2">
+                                    <div class="form-floating">
+                                        <input type="date" id="gregorianInput" name="gregorianInput" class="form-control" placeholder="Date">
+                                        <label for="gregorianInput">Date</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="my-3">
+                            <div id="outputEthiopian" class="output p-3 bg-primary bg-opacity-10 border border-primary border-opacity-10 rounded-2"></div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Corrected conversion logic
+        function gregorianToEthiopian(date) {
+            const gYear = date.getFullYear();
+            const gMonth = date.getMonth();
+            const gDay = date.getDate();
+            
+            // Determine base year difference
+            let yearDiff = 8;
+            if (gMonth > 8 || (gMonth === 8 && gDay >= 11)) {
+                yearDiff = 7;
+            }
+
+            // Calculate Ethiopian year
+            let ethYear = gYear - yearDiff;
+            const prevEthYear = ethYear - 1;
+            
+            // Determine New Year day
+            const isLeap = (prevEthYear % 4) === 3;
+            const newYearDay = isLeap ? 12 : 11;
+            const ethNewYear = new Date(gYear, 8, newYearDay);
+
+            // Adjust year if after Ethiopian New Year
+            if (date >= ethNewYear) {
+                ethYear++;
+            }
+
+            // Calculate days since Ethiopian New Year
+            const startDate = date < ethNewYear ? 
+                new Date(gYear - 1, 8, (prevEthYear % 4 === 2) ? 12 : 11) : 
+                ethNewYear;
+
+            const diff = date.getTime() - startDate.getTime();
+            let dayOfYear = Math.floor(diff / 86400000) + 1;
+
+            // Calculate month and day
+            const isCurrentLeap = (ethYear % 4) === 3;
+            const pagumeDays = isCurrentLeap ? 6 : 5;
+            let ethMonth, ethDay;
+
+            if (dayOfYear <= 360) {
+                ethMonth = Math.ceil(dayOfYear / 30);
+                ethDay = dayOfYear % 30 || 30;
+            } else if (dayOfYear <= 360 + pagumeDays) {
+                ethMonth = 13;
+                ethDay = dayOfYear - 360;
+            } else {
+                ethYear++;
+                ethMonth = 1;
+                ethDay = dayOfYear - (360 + pagumeDays);
+            }
+
+            return { year: ethYear, month: ethMonth, day: ethDay };
+        }
+
+        function ethiopianToGregorian(ethYear, ethMonth, ethDay) {
+            const isLeap = (ethYear % 4) === 3;
+            const pagumeDays = isLeap ? 6 : 5;
+            let dayOfYear;
+
+            if (ethMonth <= 12) {
+                dayOfYear = (ethMonth - 1) * 30 + ethDay;
+            } else {
+                dayOfYear = 360 + ethDay;
+                if (ethDay > pagumeDays) {
+                    ethYear++;
+                    dayOfYear = ethDay - pagumeDays;
+                }
+            }
+
+            // Determine Gregorian base year
+            const yearOffset = (ethMonth > 1 || (ethMonth === 1 && ethDay >= 1)) ? 7 : 8;
+            const gregBaseYear = ethYear + yearOffset;
+
+            // Calculate New Year date
+            const prevEthYear = ethYear - 1;
+            const newYearDay = (prevEthYear % 4 === 3) ? 12 : 11;
+            const startDate = new Date(gregBaseYear, 8, newYearDay);
+
+            // Calculate final date
+            const resultDate = new Date(startDate);
+            resultDate.setDate(startDate.getDate() + dayOfYear - 1);
+            
+            return resultDate;
+        }
+
+        // (date formatting, live clock, event handlers, etc.)
+        // Date formatting
+        const ethiopianDays = ['Ehud', 'Segno', 'Maksegno', 'Rob', 'Hamus', 'Arb', 'Kidame'];
+        const ethiopianMonths = [
+            'Meskerem', 'Tikimt', 'Hidar', 'Tahesas', 'Tir', 'Yekatit',
+            'Megabit', 'Miyazya', 'Ginbot', 'Sene', 'Hamle', 'Nehase', 'Pagume'
+        ];
+
+        function updateCurrentDates() {
+            const now = new Date();
+            
+            // Ethiopian date
+            const ethDate = gregorianToEthiopian(now);
+            const ethTime = now.toLocaleTimeString('en-US', { 
+                hour: 'numeric', 
+                minute: '2-digit', 
+                second: '2-digit', 
+                hour12: true 
+            });
+            document.getElementById('ethiopianDate').innerHTML = `
+                <span class="ethiopian-day">${ethiopianDays[now.getDay()]}</span>, ${ethDate.day} ${ethiopianMonths[ethDate.month - 1]}, ${ethDate.year}
+                <small class="ms-3 px-2 fw-light bg-primary bg-opacity-10 border border-primary border-opacity-10 rounded-2">${ethTime}</small>
+            `;
+
+            // Gregorian date
+            document.getElementById('gregorianDate').innerHTML = `
+                ${now.toLocaleDateString('en-US', { 
+                    weekday: 'long', 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                })}
+            `;
+
+            setTimeout(updateCurrentDates, 1000);
+        }
+
+        // Ethiopian date input handling
+        function updateEthDayDropdown() {
+            const ethMonth = parseInt(document.getElementById('ethMonth').value);
+            const ethYear = parseInt(document.getElementById('ethYear').value);
+            const daySelect = document.getElementById('ethDay');
+            
+            daySelect.innerHTML = '';
+            let maxDays = 30;
+            if (ethMonth === 13) {
+                maxDays = ((ethYear % 4) === 3) ? 6 : 5;
+            }
+
+            for (let i = 1; i <= maxDays; i++) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.text = i;
+                daySelect.appendChild(option);
+            }
+        }
+
+        function convertEthiopianToGregorian() {
+            const ethDay = parseInt(document.getElementById('ethDay').value);
+            const ethMonth = parseInt(document.getElementById('ethMonth').value);
+            const ethYear = parseInt(document.getElementById('ethYear').value);
+
+            if (!ethDay || !ethMonth || !ethYear) return;
+
+            try {
+                const gregDate = ethiopianToGregorian(ethYear, ethMonth, ethDay);
+                document.getElementById('outputGregorian').textContent = 
+                    gregDate.toLocaleDateString('en-US', { 
+                        weekday: 'long', 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric' 
+                    });
+            } catch (e) {
+                document.getElementById('outputGregorian').textContent = 'Invalid date';
+            }
+        }
+
+        // Gregorian date input handling
+        document.getElementById('gregorianInput').addEventListener('input', function() {
+            const gregDate = new Date(this.value);
+            const ethDate = gregorianToEthiopian(gregDate);
+            document.getElementById('outputEthiopian').innerHTML = `
+                ${ethiopianDays[gregDate.getDay()]}, ${ethDate.day} ${ethiopianMonths[ethDate.month - 1]}, ${ethDate.year}
+            `;
+        });
+
+        // Initial setup
+        function initialize() {
+            // Set initial Ethiopian date
+            const today = new Date();
+            const ethToday = gregorianToEthiopian(today);
+            document.getElementById('ethMonth').value = ethToday.month;
+            document.getElementById('ethYear').value = ethToday.year;
+            updateEthDayDropdown();
+            document.getElementById('ethDay').value = ethToday.day;
+
+            // Set initial Gregorian date
+            document.getElementById('gregorianInput').valueAsDate = today;
+
+            // Attach event listeners
+            document.getElementById('ethMonth').addEventListener('change', () => {
+                updateEthDayDropdown();
+                convertEthiopianToGregorian();
+            });
+            document.getElementById('ethYear').addEventListener('input', () => {
+                updateEthDayDropdown();
+                convertEthiopianToGregorian();
+            });
+            document.getElementById('ethDay').addEventListener('change', convertEthiopianToGregorian);
+
+            // Start clock
+            updateCurrentDates();
+        }
+
+        initialize();
+    </script>
+</body>
+</html>
