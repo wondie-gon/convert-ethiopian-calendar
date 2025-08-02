@@ -6,7 +6,7 @@ Ethiopia uses its own calendar that differs from most of the rest of the world t
 
 ## Description
 
-The Ethiopian-Gregorian Date Converter is a single page HTML page helps one to convert calendar from Gregorian to Ethiopian, or viceversa. I created this for my own personal use, and wanted to share it.
+The Ethiopian-Gregorian Date Converter is a single page HTML page helps one to convert calendar from Gregorian to Ethiopian, or vice versa. I created this for my own personal use, and wanted to share it.
 
 **Here is what it does**:
 
